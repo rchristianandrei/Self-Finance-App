@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace WinFormsClient.Forms;
+﻿namespace WinFormsClient.Forms;
 
 public partial class AddExpenseForm : Form
 {
@@ -22,10 +12,10 @@ public partial class AddExpenseForm : Form
         set => txtAmount.Text = value;
     }
 
-    public string Type
+    public object? Type
     {
-        get => cboType.Text;
-        set => cboType.Text = value;
+        get => cboType.SelectedItem;
+        set => cboType.SelectedItem = value;
     }
 
     public DateTime Date
@@ -41,6 +31,15 @@ public partial class AddExpenseForm : Form
     }
 
     public event EventHandler Add = delegate { };
+
+    public void SetTypes(List<object> types)
+    {
+        cboType.Items.Clear();
+        foreach(object type in types)
+        {
+            cboType.Items.Add(type);
+        }
+    }
 
     private void btnAdd_Click(object sender, EventArgs e)
     {

@@ -59,9 +59,9 @@
             // 
             // btnAdd
             // 
-            btnAdd.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnAdd.Anchor = AnchorStyles.Bottom;
             btnAdd.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnAdd.Location = new Point(276, 234);
+            btnAdd.Location = new Point(144, 234);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(84, 36);
             btnAdd.TabIndex = 10;
@@ -71,6 +71,7 @@
             // 
             // cboType
             // 
+            cboType.DropDownStyle = ComboBoxStyle.DropDownList;
             cboType.FormattingEnabled = true;
             cboType.Items.AddRange(new object[] { "Travel", "Food" });
             cboType.Location = new Point(140, 68);

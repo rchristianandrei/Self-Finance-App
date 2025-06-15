@@ -12,7 +12,7 @@ internal class ExpenseEntryModel
 
     public double Amount { get; set; }
 
-    public string Type { get; set; } = string.Empty;
+    public ExpenseTypeModel? Type { get; set; } = null;
 
     public DateTime Date { get; set; }
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WinFormsClient.Forms;
 using WinFormsClient.Models;
+using WinFormsClient.Repositories;
 
 namespace WinFormsClient.Presenters;
 
@@ -12,10 +13,28 @@ internal class AddExpense
 {
     public readonly AddExpenseForm AddExpenseForm = new();
 
+    private readonly ExpenseTypeRepo expenseTypeRepo = new();
+
     public AddExpense()
     {
         this.AddExpenseForm.Date = DateTime.Now;
         this.AddExpenseForm.Add += AddExpenseForm_Add;
+        this.AddExpenseForm.Shown += AddExpenseForm_Shown;
+    }
+
+    private async void AddExpenseForm_Shown(object? sender, EventArgs e)
+    {
+        try
+        {
+            List<ExpenseTypeModel> types = await expenseTypeRepo.Get();
+
+        AddExpenseForm.SetTypes([.. types.Cast<object>()]);
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            this.AddExpenseForm.Close();
+        }
     }
 
     private void AddExpenseForm_Add(object? sender, EventArgs e)
@@ -43,7 +62,7 @@ internal class AddExpense
         }
 
 
-        if (string.IsNullOrWhiteSpace(type))
+        if (type == null)
         {
             MessageBox.Show("Type cannot be empty", "Type Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
@@ -57,7 +76,7 @@ internal class AddExpense
         var expenseEntry = new ExpenseEntryModel()
         {
             Amount = dAmount,
-            Type = type,
+            Type = (ExpenseTypeModel)type,
             Description = description,
             Date= date,
         };
