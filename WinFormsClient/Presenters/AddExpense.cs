@@ -14,6 +14,7 @@ internal class AddExpense
     public readonly AddExpenseForm AddExpenseForm = new();
 
     private readonly ExpenseTypeRepo expenseTypeRepo = new();
+    private readonly ExpenseEntryRepo expenseEntryRepo = new();
 
     public AddExpense()
     {
@@ -37,7 +38,7 @@ internal class AddExpense
         }
     }
 
-    private void AddExpenseForm_Add(object? sender, EventArgs e)
+    private async void AddExpenseForm_Add(object? sender, EventArgs e)
     {
         var amount = this.AddExpenseForm.Amount;
         double dAmount;
@@ -80,5 +81,14 @@ internal class AddExpense
             Description = description,
             Date= date,
         };
+
+        try
+        {
+            await this.expenseEntryRepo.AddEntry(expenseEntry);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
     }
 }
